@@ -61,3 +61,7 @@ Users of the website who purchase physical items from archefy.com are called 'Bu
 
 *Note: Depending on the cultural impact of the product, the buyers might want to convert the token into a collectible.
 Therefore, ONLY AFTER the token has been marked deprecated by the Creator(i.e. the sales royalties have been stopped), the Buyers will have the option to convert the contract into a standalone ERC1155 token with the same metadata and the same balance amount that they had in the ArchefyPath contract for that tokenId. If they choose to do this, the old(ArchefyPath) tokens are irreversibly burned and the newly deployed contract contains the same number of tokens.*
+
+// DAI Kovan address: 0x815CaEf73C2e14B3414B9f4595BB7bb4E24Fe8E5
+// USDC Kovan address: 0xeB776a9d6970780761883430A0C89c7B56923e5a
+// USDT Kovan address: 0x8bA3A203aeEe8f528d9dEAc258d13335302689F8
