@@ -10,7 +10,6 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-
       <footer>
         <a
           href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
@@ -19,7 +18,7 @@ export default function Home() {
         >
           Powered by{' '}
           <span>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
+            <Image src="/logo.png" alt="Vercel Logo" width={16} height={16} />
           </span>
         </a>
       </footer>
