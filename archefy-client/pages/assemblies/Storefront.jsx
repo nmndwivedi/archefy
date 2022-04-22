@@ -1,25 +1,8 @@
-/*
-  This example requires Tailwind CSS v2.0+
-
-  This example requires some changes to your config:
-
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-      require('@tailwindcss/aspect-ratio'),
-    ],
-  }
-  ```
-*/
 import { Fragment, useState } from 'react'
 import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
 import { MenuIcon, QuestionMarkCircleIcon, SearchIcon, ShoppingBagIcon, XIcon } from '@heroicons/react/outline'
 
-const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP']
+const currencies = ['ETH', 'USD', 'DAI', 'USDC']
 const navigation = {
   categories: [
     {
@@ -173,7 +156,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Example() {
+export default function Storefront() {
   const [open, setOpen] = useState(false)
 
   return (
