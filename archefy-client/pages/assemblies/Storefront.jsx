@@ -1,8 +1,8 @@
 import { Fragment, useState } from 'react'
-import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
+import { Dialog, Popover, Tab } from '@headlessui/react'
 import { MenuIcon, QuestionMarkCircleIcon, SearchIcon, ShoppingBagIcon, XIcon } from '@heroicons/react/outline'
 
-const currencies = ['ETH', 'USD', 'DAI', 'USDC']
+const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP']
 const navigation = {
   categories: [
     {
@@ -162,29 +162,9 @@ export default function Storefront() {
   return (
     <div className="bg-white">
       {/* Mobile menu */}
-      <Transition.Root show={open} as={Fragment}>
-        <Dialog as="div" className="fixed inset-0 flex z-40 lg:hidden" onClose={setOpen}>
-          <Transition.Child
-            as={Fragment}
-            enter="transition-opacity ease-linear duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="transition-opacity ease-linear duration-300"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
+        <Dialog as="div" className="fixed inset-0 flex z-40 lg:hidden" onClose={setOpen} open={open}>
             <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-25" />
-          </Transition.Child>
 
-          <Transition.Child
-            as={Fragment}
-            enter="transition ease-in-out duration-300 transform"
-            enterFrom="-translate-x-full"
-            enterTo="translate-x-0"
-            leave="transition ease-in-out duration-300 transform"
-            leaveFrom="translate-x-0"
-            leaveTo="-translate-x-full"
-          >
             <div className="relative max-w-xs w-full bg-white shadow-xl pb-12 flex flex-col overflow-y-auto">
               <div className="px-4 pt-5 pb-2 flex">
                 <button
@@ -302,9 +282,7 @@ export default function Storefront() {
                 </form>
               </div>
             </div>
-          </Transition.Child>
         </Dialog>
-      </Transition.Root>
 
       <header className="relative">
         <nav aria-label="Top">
@@ -401,15 +379,6 @@ export default function Storefront() {
                                 </Popover.Button>
                               </div>
 
-                              <Transition
-                                as={Fragment}
-                                enter="transition ease-out duration-200"
-                                enterFrom="opacity-0"
-                                enterTo="opacity-100"
-                                leave="transition ease-in duration-150"
-                                leaveFrom="opacity-100"
-                                leaveTo="opacity-0"
-                              >
                                 <Popover.Panel className="absolute z-10 top-full inset-x-0 bg-white text-sm text-gray-500">
                                   {/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
                                   <div className="absolute inset-0 top-1/2 bg-white shadow" aria-hidden="true" />
@@ -451,7 +420,6 @@ export default function Storefront() {
                                     </div>
                                   </div>
                                 </Popover.Panel>
-                              </Transition>
                             </>
                           )}
                         </Popover>

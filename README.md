@@ -59,5 +59,5 @@ Users of the website who purchase physical items from archefy.com are called 'Bu
 
 *Note: On the Smart Contract level, each NFT (of a product) is identified by a unique token id under a unified ERC1155 contract called ArchefyPath, deployed at the address \<TBD\>*
 
-*Note: In the rare cases that the product becomes a cultural phenomenon, the buyers might want to convert the token into a collectible.
-To this end, ONLY AFTER the token has been marked deprecated by the Creator(i.e. the sales royalties have been stopped), the Buyers will have the option to convert the contract into a standalone ERC1155 token with the same metadata, and the same balance amount that they had in the ArchefyPath contract. The old tokens are irreversibly burned and the newly deployed contract contains the same number of tokens when they choose to do this.*
+*Note: Depending on the cultural impact of the product, the buyers might want to convert the token into a collectible.
+Therefore, ONLY AFTER the token has been marked deprecated by the Creator(i.e. the sales royalties have been stopped), the Buyers will have the option to convert the contract into a standalone ERC1155 token with the same metadata and the same balance amount that they had in the ArchefyPath contract for that tokenId. If they choose to do this, the old(ArchefyPath) tokens are irreversibly burned and the newly deployed contract contains the same number of tokens.*
