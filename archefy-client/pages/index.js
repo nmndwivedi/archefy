@@ -1,10 +1,7 @@
+import React from "react";
 import Head from "next/head";
-import Image from "next/image";
-
-import React, { useState } from "react";
 
 import Storefront from "./assemblies/Storefront";
-import Slideover from "./components/Slideover";
 
 const collections = [
   {
