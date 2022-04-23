@@ -9,14 +9,6 @@ import APIKeyForm from "./APIKeyForm";
 
 import { APP_STATES } from "../utils/types";
 
-const copyTextToClipboard = (text) => {
-  navigator.permissions.query({ name: "clipboard-write" }).then((result) => {
-    if (result.state == "granted" || result.state == "prompt") {
-      navigator.clipboard.writeText(text);
-    }
-  });
-};
-
 const AppBody = ({ state, setApiKey, createStream }) => {
   const { playbackId, streamIsActive, streamKey } = state;
   const [showRequest, setShowRequest] = React.useState(false);

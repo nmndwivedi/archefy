@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/router";
 import { StarIcon } from "@heroicons/react/solid";
 import { RadioGroup } from "@headlessui/react";
+import videojs from "video.js";
+import "video.js/dist/video-js.css";
 
 const product = {
   name: "Basic Tee 6-Pack",
@@ -39,7 +41,7 @@ const product = {
     "Ultra-soft 100% cotton",
   ],
   livestreaming: true,
-  livestreamUrl: ""
+  livestreamUrl: "https://cdn.livepeer.com/hls/dbcaurqqy5ow694k/index.m3u8",
 };
 
 const reviews = { href: "#", average: 4, totalCount: 117 };
@@ -51,20 +53,36 @@ function classNames(...classes) {
 export default function ProductPage() {
   const router = useRouter();
   const { id } = router.query;
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videojs(videoRef.current, {
+        autoplay: true,
+        muted: true,
+        sources: [
+          {
+            src: product.livestreamUrl,
+            type: "application/x-mpegURL",
+          },
+        ],
+      });
+    }
+  }, []);
 
   //Fetch product by id and its review data from API
 
   const handleBuyNow = () => {
-      // Go to stripe checkout
-  }
+    // Go to stripe checkout
+  };
 
   const handleAddToCart = () => {
-        // Add to cart and show toast
-  }
+    // Add to cart and show toast
+  };
 
   const handleInvestInIt = () => {
     // Go to investment page for product
-  }
+  };
 
   /*
      Streaming
@@ -82,7 +100,7 @@ export default function ProductPage() {
 
      If a user is on page and stream ends, then nothing changes, screen goes black
      If a new user now comes, only images are shown
-     If a creator ends ... how to detect?
+     If a creator ends how to detect?
 
      user goes to a product page, cdn url is fetched from DB if live, video player is shown with cdn url
   */
@@ -132,14 +150,22 @@ export default function ProductPage() {
           </ol>
         </nav>
 
+        {/* <div className="relative flex items-center justify-center overflow-hidden w-80 rounded-full">
+          <video
+            controls
+            ref={videoRef}
+            className="video-js absolute z-10 min-w-full min-h-full max-w-none"
+          ></video>
+        </div> */}
+
         {/* Image gallery */}
         <div className="mt-6 max-w-2xl mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-3 lg:gap-x-8">
-          <div className="hidden aspect-w-3 aspect-h-4 rounded-lg overflow-hidden lg:block">
-            <img
-              src={product.images[0].src}
-              alt={product.images[0].alt}
-              className="w-full h-full object-center object-cover"
-            />
+          <div className=" rounded-lg lg:block relative flex items-center justify-center overflow-hidden">
+            <video
+              controls
+              ref={videoRef}
+              className="video-js absolute z-10 min-h-full max-w-none h-full object-center object-cover"
+            ></video>
           </div>
           <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
             <div className="aspect-w-3 aspect-h-2 rounded-lg overflow-hidden">
@@ -247,7 +273,7 @@ export default function ProductPage() {
             <button
               type="submit"
               className=" w-full bg-blue-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-blue-700 active:bg-blue-800"
-              onClick={()=>handleBuyNow()}
+              onClick={() => handleBuyNow()}
             >
               Buy Now
             </button>
@@ -255,19 +281,19 @@ export default function ProductPage() {
             <button
               type="submit"
               className=" w-full border-blue-600 border rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-blue-600 hover:bg-slate-100 active:bg-slate-200"
-              onClick={()=>handleAddToCart()}
+              onClick={() => handleAddToCart()}
             >
               Add to Cart
             </button>
 
             <div className="w-full">
-            <button
-              type="submit"
-              className="lg:mt-6 w-full bg-green-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-green-700 active:bg-green-800"
-              onClick={()=>handleInvestInIt()}
-            >
+              <button
+                type="submit"
+                className="lg:mt-6 w-full bg-green-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-green-700 active:bg-green-800"
+                onClick={() => handleInvestInIt()}
+              >
                 Invest in it
-            </button>
+              </button>
             </div>
           </div>
 
