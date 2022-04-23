@@ -1,9 +1,9 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Dialog, Menu } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
-import { DotsVerticalIcon } from "@heroicons/react/solid";
 import { PencilIcon } from "@heroicons/react/solid";
 import { useState } from "react";
+import { useAccount, useConnect } from "wagmi";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -12,6 +12,10 @@ function classNames(...classes) {
 //Login Details, Logout Button, Address, Order History Button, Investment History Button || Login with...
 export default function Slideover({ open, setOpen }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [{ data, error }, connect] = useConnect();
+  const [{ data: accountData }, disconnect] = useAccount({
+    fetchEns: true,
+  });
 
   return (
     <Dialog
@@ -162,7 +166,11 @@ export default function Slideover({ open, setOpen }) {
                   <div className="mt-6 px-4 sm:mt-8 sm:flex sm:items-start sm:px-6 flex flex-col">
                     <span>Use one of these services</span>
                     <button className="mt-2 w-48 rounded-full flex items-center space-x-1 border border-blue-500 font-medium">
-                      <img src="/logos/fb.svg" alt="fb" className="w-8 h-8 m-1" />
+                      <img
+                        src="/logos/fb.svg"
+                        alt="fb"
+                        className="w-8 h-8 m-1"
+                      />
                       <p>Facebook</p>
                     </button>
                     <button className="mt-2 w-48 rounded-full flex items-center space-x-1 border border-red-500 font-medium">
@@ -170,24 +178,66 @@ export default function Slideover({ open, setOpen }) {
                       <p>Google</p>
                     </button>
                     <button className="mt-2 w-48 rounded-full flex items-center space-x-1 border border-blue-400 font-medium">
-                      <img src="/logos/tw.svg" alt="tw" className="w-6 h-6 m-2" />
+                      <img
+                        src="/logos/tw.svg"
+                        alt="tw"
+                        className="w-6 h-6 m-2"
+                      />
                       <p>Twitter</p>
                     </button>
                   </div>
                   <div className="mt-4 px-4 sm:mt-6 sm:flex sm:items-start sm:px-6 flex flex-col">
                     <span>Or, securely login with your crypto wallet</span>
-                    <button className="mt-2 w-48 rounded-full flex items-center space-x-1 border border-orange-500 font-medium">
-                      <img src="/logos/mm.svg" alt="fb" className="w-6 h-6 m-2" />
-                      <p>MetaMask</p>
-                    </button>
+                    <span>(Required if you wish to invest)</span>
                     <button className="mt-2 w-48 rounded-full flex items-center space-x-1 border border-blue-600 font-medium">
-                      <img src="/logos/wc.svg" alt="go" className="w-6 h-6 m-2" />
+                      <img
+                        src="/logos/wc.svg"
+                        alt="go"
+                        className="w-6 h-6 m-2"
+                      />
                       <p>WalletConnect</p>
                     </button>
                     <button className="mt-2 w-48 rounded-full flex items-center space-x-1 border border-blue-700 font-medium">
-                      <img src="/logos/cb.png" alt="tw" className="w-6 h-6 m-2" />
+                      <img
+                        src="/logos/cb.png"
+                        alt="tw"
+                        className="w-6 h-6 m-2"
+                      />
                       <p>Coinbase Wallet</p>
                     </button>
+                    <button className="mt-2 w-48 rounded-full flex items-center space-x-1 border border-orange-500 font-medium">
+                      <img
+                        src="/logos/mm.svg"
+                        alt="fb"
+                        className="w-6 h-6 m-2"
+                      />
+                      <p>MetaMask</p>
+                    </button>
+                    {data.connectors.map((connector) => (
+                      <button
+                        disabled={!connector.ready}
+                        key={connector.id}
+                        onClick={() => connect(connector)}
+                      >
+                        {connector.name}
+                        {!connector.ready && " (unsupported)"}
+                      </button>
+                    ))}
+                    {error && (
+                      <div>{error?.message ?? "Failed to connect"}</div>
+                    )}
+                    {accountData && (
+                      <div>
+                        <img src={accountData.ens?.avatar} alt="ENS Avatar" />
+                        <div>
+                          {accountData.ens?.name
+                            ? `${accountData.ens?.name} (${accountData.address})`
+                            : accountData.address}
+                        </div>
+                        <div>Connected to {accountData.connector.name}</div>
+                        <button onClick={disconnect}>Disconnect</button>
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
