@@ -6,7 +6,7 @@ import { RadioGroup } from "@headlessui/react";
 const product = {
   name: "Basic Tee 6-Pack",
   price: "$192",
-  breadcrumbs: [{ id: 1, name: "Electronics", href: "#" }],
+  categoryChain: [{ id: 1, name: "Clothing", href: "#" }],
   images: [
     {
       src: "https://tailwindui.com/img/ecommerce-images/product-page-02-secondary-product-shot.jpg",
@@ -38,7 +38,10 @@ const product = {
     "Pre-washed & pre-shrunk",
     "Ultra-soft 100% cotton",
   ],
+  livestreaming: true,
+  livestreamUrl: ""
 };
+
 const reviews = { href: "#", average: 4, totalCount: 117 };
 
 function classNames(...classes) {
@@ -49,7 +52,40 @@ export default function ProductPage() {
   const router = useRouter();
   const { id } = router.query;
 
-  //Fetch product and review data from API
+  //Fetch product by id and its review data from API
+
+  const handleBuyNow = () => {
+      // Go to stripe checkout
+  }
+
+  const handleAddToCart = () => {
+        // Add to cart and show toast
+  }
+
+  const handleInvestInIt = () => {
+    // Go to investment page for product
+  }
+
+  /*
+     Streaming
+     1. Creator of the product clicks a button on a UI to create a stream
+     2. Makes a request to the API to create a stream, which adds the stream ID to database for the product
+     3. Creator gets the stream ID and can use it to create a stream with OBS
+     4. Now, if a user visits the product page, the livestream ID is fetched from DB
+     5. If the Creator ends the stream, i.e. setInterval detects it stream status stopped, the stream ID is removed from DB
+     6. Users can now just see images of the product
+
+     Key methods
+     1. Create a stream, get back stream ID
+     2. SetInterval(getStreamStatus)
+     3. Get back video Playback URL and pipe it to video element (plyr)
+
+     If a user is on page and stream ends, then nothing changes, screen goes black
+     If a new user now comes, only images are shown
+     If a creator ends ... how to detect?
+
+     user goes to a product page, cdn url is fetched from DB if live, video player is shown with cdn url
+  */
 
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
 
@@ -61,7 +97,7 @@ export default function ProductPage() {
             role="list"
             className="max-w-2xl mx-auto px-4 flex items-center space-x-2 sm:px-6 lg:max-w-7xl lg:px-8"
           >
-            {product.breadcrumbs.map((breadcrumb) => (
+            {product.categoryChain.map((breadcrumb) => (
               <li key={breadcrumb.id}>
                 <div className="flex items-center">
                   <a
@@ -211,6 +247,7 @@ export default function ProductPage() {
             <button
               type="submit"
               className=" w-full bg-blue-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-blue-700 active:bg-blue-800"
+              onClick={()=>handleBuyNow()}
             >
               Buy Now
             </button>
@@ -218,6 +255,7 @@ export default function ProductPage() {
             <button
               type="submit"
               className=" w-full border-blue-600 border rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-blue-600 hover:bg-slate-100 active:bg-slate-200"
+              onClick={()=>handleAddToCart()}
             >
               Add to Cart
             </button>
@@ -226,6 +264,7 @@ export default function ProductPage() {
             <button
               type="submit"
               className="lg:mt-6 w-full bg-green-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-green-700 active:bg-green-800"
+              onClick={()=>handleInvestInIt()}
             >
                 Invest in it
             </button>

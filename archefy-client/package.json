@@ -13,11 +13,18 @@
     "@heroicons/react": "^1.0.6",
     "@tailwindcss/aspect-ratio": "^0.4.0",
     "@tailwindcss/forms": "^0.5.0",
+    "axios": "^0.26.1",
     "ethers": "^5.6.4",
     "firebase": "^9.6.11",
+    "hls.js": "^1.1.5",
+    "mux.js": "^6.0.1",
     "next": "12.1.5",
     "react": "18.0.0",
     "react-dom": "18.0.0",
+    "video.js": "^7.18.1",
+    "videojs-contrib-hls": "^5.15.0",
+    "videojs-contrib-quality-levels": "^2.1.0",
+    "videojs-hls-quality-selector": "^1.1.4",
     "wagmi": "^0.2.28"
   },
   "devDependencies": {
