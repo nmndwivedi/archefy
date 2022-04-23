@@ -30,16 +30,6 @@ const product = {
     { name: "Gray", class: "bg-gray-200", selectedClass: "ring-gray-400" },
     { name: "Black", class: "bg-gray-900", selectedClass: "ring-gray-900" },
   ],
-  sizes: [
-    { name: "XXS", inStock: false },
-    { name: "XS", inStock: true },
-    { name: "S", inStock: true },
-    { name: "M", inStock: true },
-    { name: "L", inStock: true },
-    { name: "XL", inStock: true },
-    { name: "2XL", inStock: true },
-    { name: "3XL", inStock: true },
-  ],
   description:
     'The Basic Tee 6-Pack allows you to fully express your vibrant personality with three grayscale options. Feeling adventurous? Put on a heather gray tee. Want to be a trendsetter? Try our exclusive colorway: "Black". Need to add an extra pop of color to your outfit? Our white tee has you covered.',
   highlights: [
@@ -62,7 +52,6 @@ export default function ProductPage() {
   //Fetch product and review data from API
 
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
-  const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
 
   return (
     <div className="bg-white">
@@ -218,36 +207,45 @@ export default function ProductPage() {
             </h1>
           </div>
 
-          <div className="flex flex-col space-y-4 items-center justify-start">
+          <div className="flex flex-row lg:flex-col lg:space-y-4 space-x-2 lg:space-x-0 items-center justify-start mt-6 lg:mt-0">
             <button
               type="submit"
-              className=" w-full bg-blue-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className=" w-full bg-blue-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-blue-700 active:bg-blue-800"
             >
               Buy Now
             </button>
 
             <button
               type="submit"
-              className=" w-full bg-blue-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className=" w-full border-blue-600 border rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-blue-600 hover:bg-slate-100 active:bg-slate-200"
             >
               Add to Cart
             </button>
+
+            <div className="w-full">
+            <button
+              type="submit"
+              className="lg:mt-6 w-full bg-green-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-green-700 active:bg-green-800"
+            >
+                Invest in it
+            </button>
+            </div>
           </div>
 
           {/* Options */}
           <div className="mt-9 lg:mt-0 lg:row-span-3">{/* Reviews */}</div>
 
-          <div className="py-10 lg:pt-6 lg:pb-16 lg:col-start-1 lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
+          <div className="lg:-mt-6 lg:pb-6 lg:col-start-1 lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
             {/* Description and details */}
             <div>
               <h3 className="sr-only">Description</h3>
 
-              <div className="space-y-6">
+              <div className="space-y-2">
                 <p className="text-base text-gray-900">{product.description}</p>
               </div>
             </div>
 
-            <div className="mt-10">
+            <div className="mt-4">
               <h3 className="text-sm font-medium text-gray-900">Highlights</h3>
 
               <div className="mt-4">
@@ -260,7 +258,6 @@ export default function ProductPage() {
                 </ul>
               </div>
             </div>
-
           </div>
         </div>
       </div>
