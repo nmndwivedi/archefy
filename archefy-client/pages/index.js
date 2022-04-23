@@ -39,7 +39,7 @@ const trendingProducts = [
     imageAlt: "Hand stitched, orange leather long wallet.",
   },
   {
-    id: 1,
+    id:2,
     name: "Leather Long Wallet",
     color: "Natural",
     price: "$75",
@@ -49,7 +49,7 @@ const trendingProducts = [
     imageAlt: "Hand stitched, orange leather long wallet.",
   },
   {
-    id: 1,
+    id: 3,
     name: "Leather Long Wallet",
     color: "Natural",
     price: "$75",
@@ -59,7 +59,7 @@ const trendingProducts = [
     imageAlt: "Hand stitched, orange leather long wallet.",
   },
   {
-    id: 1,
+    id: 4,
     name: "Leather Long Wallet",
     color: "Natural",
     price: "$75",
@@ -69,7 +69,7 @@ const trendingProducts = [
     imageAlt: "Hand stitched, orange leather long wallet.",
   },
   {
-    id: 1,
+    id: 5,
     name: "Leather Long Wallet",
     color: "Natural",
     price: "$75",

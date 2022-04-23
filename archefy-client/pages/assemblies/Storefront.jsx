@@ -9,6 +9,7 @@ import {
 } from "@heroicons/react/outline";
 import Slideover from "../components/Slideover";
 import SearchBar from "../components/SearchBar";
+import Link from "next/link";
 
 const currencies = ["USD", "EUR", "ETH", "DAI", "USDC"];
 const navigation = {
@@ -319,7 +320,7 @@ export default function Storefront({ collections, trendingProducts }) {
                   <button
                     href="#"
                     className="text-sm font-medium text-white hover:text-gray-400"
-                    onClick={()=>setAuthSlideOver(true)}
+                    onClick={() => setAuthSlideOver(true)}
                   >
                     Login
                   </button>
@@ -374,7 +375,6 @@ export default function Storefront({ collections, trendingProducts }) {
                   <div className="flex-1 flex items-center justify-end">
                     <div className="flex items-center lg:ml-8">
                       {/* Help */}
-
 
                       {/* Cart */}
                       <div className="ml-4 flow-root lg:ml-8">
@@ -532,27 +532,33 @@ export default function Storefront({ collections, trendingProducts }) {
 
               <div className="mt-6 grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-4 md:gap-y-8 lg:gap-x-8">
                 {trendingProducts.map((product) => (
-                  <div key={product.id} className="group relative">
-                    <div className="w-full h-56 rounded-md overflow-hidden group-hover:opacity-75 lg:h-72 xl:h-80">
-                      <img
-                        src={product.imageSrc}
-                        alt={product.imageAlt}
-                        className="w-full h-full object-center object-cover"
-                      />
+                  <Link
+                    href={`/products/${product.id}`}
+                    key={product.id}
+                    className="group relative"
+                  >
+                    <div className="cursor-pointer transform hover:scale-105 transition-transform duration-75">
+                      <div className="w-full h-56 rounded-md overflow-hidden group-hover:opacity-75 lg:h-72 xl:h-80">
+                        <img
+                          src={product.imageSrc}
+                          alt={product.imageAlt}
+                          className="w-full h-full object-center object-cover"
+                        />
+                      </div>
+                      <h3 className="mt-4 text-sm text-gray-700">
+                        <a href={product.href}>
+                          <span className="absolute inset-0" />
+                          {product.name}
+                        </a>
+                      </h3>
+                      <p className="mt-1 text-sm text-gray-500">
+                        {product.color}
+                      </p>
+                      <p className="mt-1 text-sm font-medium text-gray-900">
+                        {product.price}
+                      </p>
                     </div>
-                    <h3 className="mt-4 text-sm text-gray-700">
-                      <a href={product.href}>
-                        <span className="absolute inset-0" />
-                        {product.name}
-                      </a>
-                    </h3>
-                    <p className="mt-1 text-sm text-gray-500">
-                      {product.color}
-                    </p>
-                    <p className="mt-1 text-sm font-medium text-gray-900">
-                      {product.price}
-                    </p>
-                  </div>
+                  </Link>
                 ))}
               </div>
 
