@@ -1,7 +1,12 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signOut,
+} from "firebase/auth";
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
@@ -17,30 +22,20 @@ const firebaseConfig = {
 };
 
 let analytics;
-let provider;
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
 
 if (typeof window !== "undefined") {
   analytics = getAnalytics(app);
-
-  provider = new GoogleAuthProvider();
 }
 
 export const auth = getAuth(app);
-export const signInWithGoogle = () => {
-  signInWithPopup(auth, provider)
-    .then((result) => {
-      console.log(result.user);
-      const name = result.user.displayName;
-      const email = result.user.email;
-      const profilePic = result.user.photoURL;
+const provider = new GoogleAuthProvider();
 
-      localStorage.setItem("name", name);
-      localStorage.setItem("email", email);
-      localStorage.setItem("profilePic", profilePic);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+export const signInWithGoogleFirebase = async () => {
+  return signInWithPopup(auth, provider);
+};
+
+export const signOutFirebase = async () => {
+  return signOut(auth);
 };

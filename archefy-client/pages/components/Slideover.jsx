@@ -4,7 +4,7 @@ import { XIcon } from "@heroicons/react/outline";
 import { PencilIcon } from "@heroicons/react/solid";
 import { useState } from "react";
 import { useAccount, useConnect } from "wagmi";
-import { signInWithGoogle } from "../../firebase";
+import useFirebase from "../../hooks/useFirebase";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -23,6 +23,7 @@ export default function Slideover({ open, setOpen }) {
   const [{ data: accountData }, disconnect] = useAccount({
     fetchEns: true,
   });
+  const { user, signInWithGoogle, signOut } = useFirebase();
 
   return (
     <Dialog
@@ -58,13 +59,17 @@ export default function Slideover({ open, setOpen }) {
                 </div>
               </div>
               {/* Main */}
-              {isLoggedIn ? (
+              {!!user ? (
                 <>
-                  <UserProfile />
+                  <UserProfile user={user} signOut={signOut} />
                 </>
               ) : (
                 <>
-                  <SocialLogin accountData={accountData} />
+                  <SocialLogin
+                    accountData={accountData}
+                    user={user}
+                    signInWithGoogle={signInWithGoogle}
+                  />
                 </>
               )}
               <div className="">
@@ -86,7 +91,7 @@ export default function Slideover({ open, setOpen }) {
   );
 }
 
-const UserProfile = () => {
+const UserProfile = ({ user, signOut }) => {
   return (
     <>
       <div className="pb-1 sm:pb-6">
@@ -96,13 +101,13 @@ const UserProfile = () => {
               <div>
                 <div className="flex items-center">
                   <h3 className="text-xl font-bold text-gray-900 sm:text-2xl">
-                    Ashley Porter
+                    {user.name}
                   </h3>
                   <span className="ml-2.5 inline-block h-2 w-2 flex-shrink-0 rounded-full bg-green-400">
                     <span className="sr-only">Online</span>
                   </span>
                 </div>
-                <p className="text-sm text-gray-500">ashleyporter@gmail.com</p>
+                <p className="text-sm text-gray-500">{user.email}</p>
               </div>
               <div className="mt-5 flex flex-wrap space-y-3 sm:space-y-0 sm:space-x-3">
                 <button
@@ -130,19 +135,46 @@ const UserProfile = () => {
               <PencilIcon className="w-5 h-5 cursor-pointer" />
             </dt>
             <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
-              <p>72/1 Westerpark</p>
-              <p>Amsterdam</p>
-              <p>1051RA</p>
-              <p>The Netherlands</p>
+              {user.address ? (
+                <>
+                  <p>
+                    {user.address.l1}, {user.address.l2}
+                  </p>
+                  <p>{user.address.city}</p>
+                  <p>{user.address.zip}</p>
+                  <p>{user.address.country}</p>
+                </>
+              ) : (
+                <>
+                  <p>No address set</p>
+                </>
+              )}
+            </dd>
+
+            <dt className="mt-2 text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0 flex justify-start items-center space-x-2">
+              <span>Phone:</span>
+              <PencilIcon className="w-5 h-5 cursor-pointer" />
+            </dt>
+            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
+              {user.phone ? (
+                <>
+                  <p>{user.phone}</p>
+                </>
+              ) : (
+                <>
+                  <p>No phone set</p>
+                </>
+              )}
             </dd>
           </div>
-          {/*
-            <button
-              type="button"
-              className="inline-flex w-32 flex-shrink-0 items-center justify-center rounded-md border border-transparent  border-red-600 px-4 py-2 text-sm font-medium text-red-600 shadow-sm hover:bg-red-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:flex-1"
-            >
-              Logout
-            </button> */}
+
+          <button
+            type="button"
+            className="inline-flex w-32 flex-shrink-0 items-center justify-center rounded-full border border-transparent border-red-500 px-4 py-2 text-sm font-medium text-red-500 shadow-sm hover:bg-red-600 hover:text-white focus:outline-none active:bg-red-700 sm:flex-1"
+            onClick={signOut}
+          >
+            Logout
+          </button>
         </dl>
       </div>
     </>
@@ -200,9 +232,11 @@ const CryptoLogin = ({ data, error, connect, accountData, disconnect }) => {
           <div className="italic text-gray-400">
             Connected to {accountData.connector.name}
           </div>
+
           <button
+            type="button"
             onClick={disconnect}
-            className="mt-2 w-48 rounded-full flex items-center space-x-1 border font-medium bg-red-500 text-white p-2 px-12"
+            className="inline-flex w-32 mt-4 flex-shrink-0 items-center justify-center rounded-full border border-transparent  border-red-500 px-4 py-2 text-sm font-medium text-red-500 shadow-sm hover:bg-red-600 hover:text-white focus:outline-none active:bg-red-700 sm:flex-1"
           >
             Disconnect
           </button>
@@ -212,26 +246,37 @@ const CryptoLogin = ({ data, error, connect, accountData, disconnect }) => {
   );
 };
 
-const SocialLogin = ({ accountData }) => {
+const SocialLogin = ({ accountData, user, signInWithGoogle }) => {
   return (
     <div className="mt-6 px-4 sm:mt-8 sm:flex sm:items-start sm:px-6 flex flex-col">
-      {!accountData ? (
-        <span>Use one of these services to login</span>
-      ) : (
-        <span>Connect Social Account</span>
+      {!user && (
+        <>
+          {!accountData ? (
+            <span>1-Click Sign In</span>
+          ) : (
+            <span>Connect Social Account</span>
+          )}
+          {/* //{" "} */}
+          {/* <button className="mt-2 w-48 rounded-full flex items-center space-x-1 border font-medium">
+      //   <img src="/logos/fb.svg" alt="fb" className="w-8 h-8 m-1" />
+      //   <p>Facebook</p>
+      // </button> */}
+          <button
+            className="mt-2 w-48 rounded-full flex items-center space-x-1 border font-medium"
+            onClick={() => signInWithGoogle()}
+          >
+            <img src="/logos/go.svg" alt="go" className="w-10 h-10" />
+            <p>Google</p>
+          </button>
+          {/* //{" "} */}
+          {/* <button className="mt-2 w-48 rounded-full flex items-center space-x-1 border font-medium">
+      //   <img src="/logos/tw.svg" alt="tw" className="w-6 h-6 m-2" />
+      //   <p>Twitter</p>
+      // </button> */}
+        </>
       )}
-      {/* <button className="mt-2 w-48 rounded-full flex items-center space-x-1 border font-medium">
-        <img src="/logos/fb.svg" alt="fb" className="w-8 h-8 m-1" />
-        <p>Facebook</p>
-      </button> */}
-      <button className="mt-2 w-48 rounded-full flex items-center space-x-1 border font-medium" onClick={()=>signInWithGoogle()}>
-        <img src="/logos/go.svg" alt="go" className="w-10 h-10" />
-        <p>Google</p>
-      </button>
-      {/* <button className="mt-2 w-48 rounded-full flex items-center space-x-1 border font-medium">
-        <img src="/logos/tw.svg" alt="tw" className="w-6 h-6 m-2" />
-        <p>Twitter</p>
-      </button> */}
+
+      {user && <button onClick={() => {}}>Logout</button>}
     </div>
   );
 };
